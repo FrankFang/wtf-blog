@@ -1,5 +1,7 @@
 # 这也能算一个 blog 系统？！
 
+[预览 https://frankfang.github.io/wtf-blog/](https://frankfang.github.io/wtf-blog/)
+
 ## 使用方法：
 
 1. Fork 本项目，得到你自己的 wtf-blog
