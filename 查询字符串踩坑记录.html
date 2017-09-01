@@ -1,0 +1,49 @@
+<title>查询字符串踩坑记录</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<img class="logo" src="logo.png">
+
+<x-markdown>
+###背景
+《DOM编程艺术》中非常强调封装的思想，一直以来也会时不时自己封装一些使用的函数方便自己使用。本着巩固JavaScript基础和方便自己的思想，最近开始自己写一个类似jQuery的DOM和BOM的库。
+[DOM库github地址](https://github.com/JeromeYangtao/DOM-Library)
+[BOM库github地址](https://github.com/JeromeYangtao/BOM-Libarary)
+但是写的过程中一个关于查询字符串的坑让我踩了一晚上，所以用一篇博客记录一下。
+
+###window.location.search
+
+![](http://upload-images.jianshu.io/upload_images/3474707-c5dc84594f65ba2f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+我们都知道，可以通过window.location.search这个API控制查询字符串，也就是上图的search部分。如果只是单纯的更改了查询字符串，页面内容不会有任何变化，只有URL改变。我们可能没有想到的是，它会影响JavaScript代码的执行过程
+###现象
+先描述一下这个坑的情况。
+简化后的核心代码
+```
+let div = document.querySelector('#div')
+div.addEventListener('click', function() {
+     console.log(1)
+     console.log(2)
+    //控制台输出1,2
+})
+```
+现在测试一切正常
+```
+let div = document.querySelector('#div')
+div.addEventListener('click', function() {
+     console.log(1)
+     window.location.search = 'xxx=yyy'
+     console.log(2)
+    //控制台没有任何输出
+})
+```
+现在只在输出1,2中间加入一行修改查询字符串的代码。我们打开控制台就会发现1和2不能正常输出了。
+###原因与小结
+其实也没什么好解释的。
+查询字符串修改之后和原来的页面根本**不是**同一个页面！！
+根本！不是！同一个页面！
+
+对懂的人来说自然没有任何难度，但不知道的人可能会把人气炸(比如5分钟前的我，折腾了一晚上）。搜遍全网发现好像还没有人踩这个坑，也找到合适的资料，于是记录下来，做一点微小的贡献。
+</x-markdown>
+
+<link rel="stylesheet" href="css/default.css">
+<script src="js/marked.min.js"></script>
+<script src="js/main.js"></script>
